@@ -3,8 +3,12 @@ package ru.lesson.stream;
 import ru.lesson.stream.dto.Employee;
 import ru.lesson.stream.dto.PositionType;
 
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+
+import static java.util.stream.Collectors.toList;
 
 public class LessonStreamApi {
 
@@ -14,7 +18,10 @@ public class LessonStreamApi {
      * Важно: Необходимо учесть, что List<Employee> employees может содержать дублирующие записи.
      */
     public List<Employee> task1(List<Employee> employees) {
-        return null;
+        return employees.stream()
+                .distinct()
+                .filter(employee -> employee.getRating() > 50)
+                .collect(toList());
     }
 
     /**
@@ -23,7 +30,11 @@ public class LessonStreamApi {
      * У которых рейтинг {@link Employee#getRating()} меньше 50.
      */
     public List<String> task2(List<Employee> employees) {
-        return null;
+        return employees.stream()
+                .distinct()
+                .filter(employee -> employee.getRating() < 50)
+                .map(employee -> employee.getName()+"="+employee.getRating())
+                .collect(toList());
     }
 
     /**
@@ -31,7 +42,9 @@ public class LessonStreamApi {
      * Получить средний рейтнг всех сотрудников.
      */
     public double task3(List<Employee> employees) {
-        return 0.0;
+        return employees.stream()
+                .mapToDouble(Employee::getRating)
+                .average().orElse(0);
     }
 
     /**
@@ -42,7 +55,11 @@ public class LessonStreamApi {
      * Необходимо устранить дублирование.
      */
     public List<Employee> task4(List<List<Employee>> employeeDepartments) {
-        return null;
+        return employeeDepartments.stream()
+                .flatMap(Collection::stream)
+                .distinct()
+                .sorted(Comparator.comparingInt(Employee::getRating).reversed())
+                .collect(toList());
     }
 
     /**
