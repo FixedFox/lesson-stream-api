@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -33,7 +34,7 @@ public class LessonStreamApi {
         return employees.stream()
                 .distinct()
                 .filter(employee -> employee.getRating() < 50)
-                .map(employee -> employee.getName()+"="+employee.getRating())
+                .map(employee -> employee.getName() + "=" + employee.getRating())
                 .collect(toList());
     }
 
@@ -74,11 +75,14 @@ public class LessonStreamApi {
      * Если number = 2, size = 3, то результирующий список
      * Employee{id=4, name='Name4', rating=14}, Employee{id=5, name='Name5', rating=15}, Employee{id=6, name='Name6', rating=16}
      */
-    public List<Employee> task5(List<Employee> employees, int number, int size) {
-        if (number <= 0) {
-            throw new IllegalArgumentException(Integer.toString(number));
+    public List<Employee> task5(List<Employee> employees, int limit, int offset) {
+        if (limit <= 0) {
+            throw new IllegalArgumentException(Integer.toString(limit));
         }
-        return null;
+        return employees.stream()
+                .skip((offset - 1) * limit)
+                .limit(limit)
+                .collect(toList());
     }
 
     /**
@@ -89,7 +93,15 @@ public class LessonStreamApi {
      * Пример результата: [Ivan, Olga, John]
      */
     public String task6(List<Employee> employees) {
-        return null;
+
+        return new StringBuffer(
+                employees.stream()
+                        .map(Employee::getName)
+                        .reduce((a, b) -> a + ", " + b)
+                        .orElse("empty list"))
+                .insert(0, "[")
+                .append("]")
+                .toString();
     }
 
     /**
@@ -99,7 +111,9 @@ public class LessonStreamApi {
      * Если дубли существуют - вернуть true, если дублей нет - вернуть false
      */
     public boolean task7(List<Employee> employees) {
-        return false;
+        return employees.stream()
+                .map(Employee::getName)
+                .;
     }
 
     /**

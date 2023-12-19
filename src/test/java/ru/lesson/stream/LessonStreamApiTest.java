@@ -80,7 +80,7 @@ public class LessonStreamApiTest {
             employees.add(new Employee(i, "Name" + i,i + 10));
         }
 
-        List<Employee> result = lessonStreamApi.task5(employees,1, 3);
+        List<Employee> result = lessonStreamApi.task5(employees,3, 1);
         assertNotNull(result);
         assertEquals(3, result.size());
         assertThat(result, contains(
@@ -88,7 +88,7 @@ public class LessonStreamApiTest {
                 new Employee(2, "Name2",12),
                 new Employee(3, "Name3",13)));
 
-        List<Employee> result2 = lessonStreamApi.task5(employees,2, 3);
+        List<Employee> result2 = lessonStreamApi.task5(employees,3, 2);
         assertNotNull(result2);
         assertEquals(3, result2.size());
         assertThat(result2, contains(
