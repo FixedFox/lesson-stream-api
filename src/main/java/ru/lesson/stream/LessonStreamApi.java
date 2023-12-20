@@ -3,13 +3,11 @@ package ru.lesson.stream;
 import ru.lesson.stream.dto.Employee;
 import ru.lesson.stream.dto.PositionType;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
 
 public class LessonStreamApi {
 
@@ -111,9 +109,10 @@ public class LessonStreamApi {
      * Если дубли существуют - вернуть true, если дублей нет - вернуть false
      */
     public boolean task7(List<Employee> employees) {
+        var uniqNames = new HashSet<String>();
         return employees.stream()
                 .map(Employee::getName)
-                .;
+                .anyMatch(name -> !uniqNames.add(name));
     }
 
     /**
@@ -122,7 +121,11 @@ public class LessonStreamApi {
      * должности сотрудника {@link Employee#getPositionType()}
      */
     public Map<PositionType, Double> task8(List<Employee> employees) {
-        return null;
+        return employees.stream()
+                .collect(groupingBy(Employee::getPositionType,
+                                mapping(Employee::getRating,
+                                        averagingDouble(Integer::doubleValue))));
+
     }
 
     /**
