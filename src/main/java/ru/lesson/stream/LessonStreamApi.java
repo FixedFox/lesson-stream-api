@@ -136,7 +136,10 @@ public class LessonStreamApi {
      * Сотрудник является эффективным, если его рейтинг больше 50.
      */
     public Map<Boolean, Long> task9(List<Employee> employees) {
-        return null;
+        return employees.stream()
+                .collect(groupingBy(a -> a.getRating() > 50,
+                        mapping(Employee::getId,
+                                counting())));
     }
 
     /**
